@@ -12,6 +12,8 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
+# define M_PI           3.14159265358979323846  /* pi */
+
 //==============================================================================
 /**
 */
@@ -55,7 +57,23 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+	int SoftClipAudioProcessor::signum(float x);
+
+	int _comboChoice;
+	float _inputGain;
+
+	enum Types
+	{
+		_off = 0,
+		_cubic,
+		_arctan,
+		_exponential
+	};
+
+
 private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SoftClipAudioProcessor)
 };
+
+

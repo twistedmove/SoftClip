@@ -24,6 +24,7 @@ SoftClipAudioProcessor::SoftClipAudioProcessor()
                        )
 #endif
 {
+	_inputGain = 1.0f;
 }
 
 SoftClipAudioProcessor::~SoftClipAudioProcessor()
@@ -154,8 +155,40 @@ void SoftClipAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffe
     {
         auto* channelData = buffer.getWritePointer (channel);
 
-        // ..do something to the data...
+		for (int i = 0; i < buffer.getNumSamples(); i++) {
+
+			float in = channelData[i];
+
+			if (_comboChoice == _cubic) {
+
+				float a = _inputGain / 10.f;
+				channelData[i] = in - a * (1.f / 3.f) * powf(in, 3.f);
+			}
+			else if (_comboChoice == _arctan) {
+
+				channelData[i] = (2.f / M_PI) * atanf(in * _inputGain);
+			}
+			else if (_comboChoice == _exponential){
+
+				channelData[i] = signum(in) * (1.f - expf(-fabs(_inputGain * in)));
+			}
+		}
     }
+}
+
+// extracts the sign of a float number
+int SoftClipAudioProcessor::signum(float x)
+{
+
+	/*if (x > 0)
+	return 1;
+	else if (x < 0)
+	return -1;
+	else
+	return 0;*/
+
+	// Same as the above but with the ternary operator
+	return (x > 0) ? 1 : ((x < 0) ? -1 : 0);
 }
 
 //==============================================================================

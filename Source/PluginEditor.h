@@ -34,7 +34,9 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class SoftClipAudioProcessorEditor  : public AudioProcessorEditor
+class SoftClipAudioProcessorEditor  : public AudioProcessorEditor,
+                                      public ComboBox::Listener,
+                                      public Slider::Listener
 {
 public:
     //==============================================================================
@@ -47,6 +49,8 @@ public:
 
     void paint (Graphics& g) override;
     void resized() override;
+    void comboBoxChanged (ComboBox* comboBoxThatHasChanged) override;
+    void sliderValueChanged (Slider* sliderThatWasMoved) override;
 
 
 
@@ -56,6 +60,8 @@ private:
     //[/UserVariables]
 
     //==============================================================================
+    std::unique_ptr<ComboBox> comboBox;
+    std::unique_ptr<Slider> sliderInputGain;
 
 
     //==============================================================================
