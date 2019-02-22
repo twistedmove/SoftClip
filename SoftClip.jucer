@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="ZlZPtW" name="SoftClip" projectType="audioplug" jucerVersion="5.4.1"
-              pluginFormats="buildVST3" companyName="GCUAudio" pluginVST3Category="Distortion">
+              pluginFormats="buildVST3" companyName="GCU Audio" pluginVST3Category="Distortion">
   <MAINGROUP id="rU0LaY" name="SoftClip">
     <GROUP id="{7972D490-ECEF-A002-747A-9A263BC684F6}" name="Source">
       <FILE id="aiT62w" name="PluginProcessor.cpp" compile="1" resource="0"
