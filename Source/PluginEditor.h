@@ -1,35 +1,66 @@
 /*
   ==============================================================================
 
-    This file was auto-generated!
+  This is an automatically generated GUI class created by the Projucer!
 
-    It contains the basic framework code for a JUCE plugin editor.
+  Be careful when adding custom code to these files, as only the code within
+  the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
+  and re-saved.
+
+  Created with Projucer version: 5.4.1
+
+  ------------------------------------------------------------------------------
+
+  The Projucer is part of the JUCE library.
+  Copyright (c) 2017 - ROLI Ltd.
 
   ==============================================================================
 */
 
 #pragma once
 
+//[Headers]     -- You can add your own extra header files here --
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
+//[/Headers]
+
+
 
 //==============================================================================
 /**
+                                                                    //[Comments]
+    An auto-generated component, created by the Projucer.
+
+    Describe your class and how it works here!
+                                                                    //[/Comments]
 */
 class SoftClipAudioProcessorEditor  : public AudioProcessorEditor
 {
 public:
-    SoftClipAudioProcessorEditor (SoftClipAudioProcessor&);
+    //==============================================================================
+    SoftClipAudioProcessorEditor (SoftClipAudioProcessor& p);
     ~SoftClipAudioProcessorEditor();
 
     //==============================================================================
-    void paint (Graphics&) override;
+    //[UserMethods]     -- You can add your own custom methods in this section.
+    //[/UserMethods]
+
+    void paint (Graphics& g) override;
     void resized() override;
 
-private:
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
-    SoftClipAudioProcessor& processor;
 
+
+private:
+    //[UserVariables]   -- You can add your own custom variables in this section.
+	SoftClipAudioProcessor& processor;
+    //[/UserVariables]
+
+    //==============================================================================
+
+
+    //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SoftClipAudioProcessorEditor)
 };
+
+//[EndFile] You can add extra defines here...
+//[/EndFile]

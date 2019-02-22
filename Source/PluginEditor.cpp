@@ -1,42 +1,108 @@
 /*
   ==============================================================================
 
-    This file was auto-generated!
+  This is an automatically generated GUI class created by the Projucer!
 
-    It contains the basic framework code for a JUCE plugin editor.
+  Be careful when adding custom code to these files, as only the code within
+  the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
+  and re-saved.
+
+  Created with Projucer version: 5.4.1
+
+  ------------------------------------------------------------------------------
+
+  The Projucer is part of the JUCE library.
+  Copyright (c) 2017 - ROLI Ltd.
 
   ==============================================================================
 */
 
-#include "PluginProcessor.h"
+//[Headers] You can add your own extra header files here...
+//[/Headers]
+
 #include "PluginEditor.h"
+
+
+//[MiscUserDefs] You can add your own user definitions and misc code here...
+//[/MiscUserDefs]
 
 //==============================================================================
 SoftClipAudioProcessorEditor::SoftClipAudioProcessorEditor (SoftClipAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p)
+    : AudioProcessorEditor(p), processor(p)
 {
-    // Make sure that before the constructor has finished, you've set the
-    // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    //[Constructor_pre] You can add your own custom stuff here..
+    //[/Constructor_pre]
+
+
+    //[UserPreSize]
+    //[/UserPreSize]
+
+    setSize (600, 400);
+
+
+    //[Constructor] You can add your own custom stuff here..
+    //[/Constructor]
 }
 
 SoftClipAudioProcessorEditor::~SoftClipAudioProcessorEditor()
 {
+    //[Destructor_pre]. You can add your own custom destruction code here..
+    //[/Destructor_pre]
+
+
+
+    //[Destructor]. You can add your own custom destruction code here..
+    //[/Destructor]
 }
 
 //==============================================================================
 void SoftClipAudioProcessorEditor::paint (Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
+    //[UserPrePaint] Add your own custom painting code here..
+    //[/UserPrePaint]
 
-    g.setColour (Colours::white);
-    g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), Justification::centred, 1);
+    g.fillAll (Colour (0xff323e44));
+
+    //[UserPaint] Add your own custom painting code here..
+    //[/UserPaint]
 }
 
 void SoftClipAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    //[UserPreResize] Add your own custom resize code here..
+    //[/UserPreResize]
+
+    //[UserResized] Add your own custom resize handling here..
+    //[/UserResized]
 }
+
+
+
+//[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
+//[/MiscUserCode]
+
+
+//==============================================================================
+#if 0
+/*  -- Projucer information section --
+
+    This is where the Projucer stores the metadata that describe this GUI layout, so
+    make changes in here at your peril!
+
+BEGIN_JUCER_METADATA
+
+<JUCER_COMPONENT documentType="Component" className="SoftClipAudioProcessorEditor"
+                 componentName="" parentClasses="public AudioProcessorEditor"
+                 constructorParams="SoftClipAudioProcessor&amp; p" variableInitialisers="AudioProcessorEditor(p), processor(p)"
+                 snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.33"
+                 fixedSize="0" initialWidth="600" initialHeight="400">
+  <BACKGROUND backgroundColour="ff323e44"/>
+</JUCER_COMPONENT>
+
+END_JUCER_METADATA
+*/
+#endif
+
+
+//[EndFile] You can add extra defines here...
+//[/EndFile]
