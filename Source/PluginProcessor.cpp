@@ -24,7 +24,14 @@ SoftClipAudioProcessor::SoftClipAudioProcessor()
                        )
 #endif
 {
-	_inputGain = 1.0f;
+	// Adds the input gain parameter to the AudioProcessor
+	addParameter(inputGain = new AudioParameterFloat("inputGain",				
+		"Input Gain", NormalisableRange<float>(0.0f, 10.0f), 5.0f));			
+
+	// Adds a parameter for choosing algortihm to the AudioProcessor
+	addParameter(comboChoice = new AudioParameterChoice("choice",
+		"Clipping algorithm", {"Select one", "Cubic", "Arctan", "Exponential" }, 0));
+
 }
 
 SoftClipAudioProcessor::~SoftClipAudioProcessor()
@@ -157,26 +164,36 @@ void SoftClipAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffe
 
 		for (int i = 0; i < buffer.getNumSamples(); i++) {
 
-			float in = channelData[i];
+			auto in = channelData[i];
+			auto gain = inputGain->get();
+			auto choice = comboChoice->getIndex();
 
-			if (_comboChoice == _cubic) {
+			if (choice == 1) {			// Cubic
 
-				float a = _inputGain / 10.f;
+				auto a = gain / 10.f;
 				channelData[i] = in - a * (1.f / 3.f) * powf(in, 3.f);
 			}
-			else if (_comboChoice == _arctan) {
+			else if (choice == 2) {		// Arctan
 
-				channelData[i] = (2.f / M_PI) * atanf(in * _inputGain);
+				channelData[i] = (2.f / juce::MathConstants<float>::pi) * atanf(in * gain);
 			}
-			else if (_comboChoice == _exponential){
+			else if (choice == 3){		// Exponential
 
-				channelData[i] = signum(in) * (1.f - expf(-fabs(_inputGain * in)));
+				channelData[i] = signum(in) * (1.f - expf(-fabs(in * gain)));
+			}
+			else {
+				channelData[i] = in;	// Off
 			}
 		}
     }
 }
 
 // extracts the sign of a float number
+/*
+1 if the corresponding element of x is greater than 0.
+0 if the corresponding element of x equals 0.
+-1 if the corresponding element of x is less than 0.
+*/
 int SoftClipAudioProcessor::signum(float x)
 {
 
@@ -187,7 +204,7 @@ int SoftClipAudioProcessor::signum(float x)
 	else
 	return 0;*/
 
-	// Same as the above but with the ternary operator
+	// Same as the above but using the ternary operator
 	return (x > 0) ? 1 : ((x < 0) ? -1 : 0);
 }
 
@@ -199,7 +216,7 @@ bool SoftClipAudioProcessor::hasEditor() const
 
 AudioProcessorEditor* SoftClipAudioProcessor::createEditor()
 {
-    return new SoftClipAudioProcessorEditor (*this);
+    return new GenericAudioProcessorEditor(this);
 }
 
 //==============================================================================
@@ -208,12 +225,20 @@ void SoftClipAudioProcessor::getStateInformation (MemoryBlock& destData)
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
+	MemoryOutputStream stream(destData, true);
+	stream.writeFloat(*inputGain);
+	stream.writeInt(*comboChoice);
 }
 
 void SoftClipAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+	MemoryInputStream stream(data, static_cast<size_t> (sizeInBytes), false);
+	inputGain->setValueNotifyingHost(inputGain->getNormalisableRange().convertTo0to1(stream.readFloat()));
+	comboChoice->setValueNotifyingHost(comboChoice->getNormalisableRange().convertTo0to1(stream.readInt()));
+	//*comboChoice = stream.readInt();
+
 }
 
 //==============================================================================
