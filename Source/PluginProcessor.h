@@ -12,8 +12,6 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-# define M_PI           3.14159265358979323846  /* pi */
-
 //==============================================================================
 /**
 */
@@ -57,19 +55,12 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+	// Return sign of an input value
 	int SoftClipAudioProcessor::signum(float x);
 
-	int _comboChoice;
-	float _inputGain;
-
-	enum Types
-	{
-		_off = 0,
-		_cubic,
-		_arctan,
-		_exponential
-	};
-
+	// Plugin parameters
+	AudioParameterFloat* inputGain;
+	AudioParameterChoice* comboChoice;
 
 private:
     //==============================================================================
