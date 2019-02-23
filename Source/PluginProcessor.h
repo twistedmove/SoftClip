@@ -61,6 +61,8 @@ public:
 
 	int _comboChoice;
 	float _inputGain;
+	AudioParameterFloat* gain;
+
 
 	enum Types
 	{
@@ -70,8 +72,9 @@ public:
 		_exponential
 	};
 
-
+	AudioProcessorValueTreeState& getTreeState();
 private:
+	ScopedPointer<AudioProcessorValueTreeState> state;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SoftClipAudioProcessor)
 };

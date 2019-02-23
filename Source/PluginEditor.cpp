@@ -64,12 +64,14 @@ SoftClipAudioProcessorEditor::SoftClipAudioProcessorEditor (SoftClipAudioProcess
 
 
     //[Constructor] You can add your own custom stuff here..
+	inputGainAttachment = new AudioProcessorValueTreeState::SliderAttachment(p.getTreeState(), "inputGain", *sliderInputGain);
     //[/Constructor]
 }
 
 SoftClipAudioProcessorEditor::~SoftClipAudioProcessorEditor()
 {
     //[Destructor_pre]. You can add your own custom destruction code here..
+	inputGainAttachment = nullptr;
     //[/Destructor_pre]
 
     comboBox = nullptr;

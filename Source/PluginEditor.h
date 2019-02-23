@@ -57,6 +57,7 @@ public:
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
 	SoftClipAudioProcessor& processor;
+	ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> inputGainAttachment;
     //[/UserVariables]
 
     //==============================================================================

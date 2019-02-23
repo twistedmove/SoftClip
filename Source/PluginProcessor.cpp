@@ -24,7 +24,18 @@ SoftClipAudioProcessor::SoftClipAudioProcessor()
                        )
 #endif
 {
-	_inputGain = 1.0f;
+
+	addParameter(gain = new AudioParameterFloat("gain", // parameterID
+		"Gain", // parameter name
+		0.0f,   // minimum value
+		1.0f,   // maximum value
+		0.5f)); // default value
+	//_inputGain = 1.0f;
+	//state = new AudioProcessorValueTreeState(*this, nullptr, "PARAMETERS", { std::make_unique<AudioParameterFloat>("inputGain", "Input Gain", NormalisableRange<float>(0.0f, 10.0f), 0) });
+
+	state = new AudioProcessorValueTreeState(*this, nullptr);
+	state->createAndAddParameter("inputGain", "inputGain", "inputGain", NormalisableRange<float>(0, 10), 1, nullptr, nullptr);
+	state->state = ValueTree("savedParams");
 }
 
 SoftClipAudioProcessor::~SoftClipAudioProcessor()
@@ -155,6 +166,8 @@ void SoftClipAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffe
     {
         auto* channelData = buffer.getWritePointer (channel);
 
+		buffer.applyGain(*gain);
+
 		for (int i = 0; i < buffer.getNumSamples(); i++) {
 
 			float in = channelData[i];
@@ -208,12 +221,28 @@ void SoftClipAudioProcessor::getStateInformation (MemoryBlock& destData)
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
+	/*ScopedPointer<XmlElement> xml(state->state.createXml());
+	copyXmlToBinary(*xml, destData);*/
+
+	MemoryOutputStream(destData, true).writeFloat(*gain);
+
 }
 
 void SoftClipAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+	/*ScopedPointer<XmlElement> theParams(getXmlFromBinary(data, sizeInBytes));
+
+	if (theParams != nullptr) {
+
+		if (theParams->hasTagName(state->state.getType())) {
+			state->state = ValueTree::fromXml(*theParams);
+		}
+	}*/
+
+	*gain = MemoryInputStream(data, static_cast<size_t> (sizeInBytes), false).readFloat();
+
 }
 
 //==============================================================================
@@ -221,4 +250,8 @@ void SoftClipAudioProcessor::setStateInformation (const void* data, int sizeInBy
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new SoftClipAudioProcessor();
+}
+
+AudioProcessorValueTreeState& SoftClipAudioProcessor::getTreeState() {
+	return *state;
 }
