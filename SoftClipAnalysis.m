@@ -1,10 +1,12 @@
 hostedPlugin = loadAudioPlugin('SoftClip.vst3');
 hostedPlugin.InputGain = 10.0;
 hostedPlugin.ClippingAlgorithm = 'Arctan';
-setSampleRate(hostedPlugin, fs);
+
 
 % Sampling rate
 fs = 48000;
+
+setSampleRate(hostedPlugin, fs);
 
 % Frequency of sine wave (Hz)
 f = 2;
